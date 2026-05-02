@@ -4,595 +4,1216 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jay Harish Jethva — Product Owner & BI Solutions Architect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
   <style>
+    /* ── RESET & BASE ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #0a0a0f;
-      --surface: #13131a;
-      --surface2: #1c1c26;
-      --accent: #6c63ff;
-      --accent2: #a78bfa;
-      --accent3: #38bdf8;
-      --text: #e8e8f0;
-      --muted: #8b8b9e;
-      --border: #232330;
-      --green: #34d399;
+      --bg:       #060610;
+      --surface:  #0d0d1a;
+      --surface2: #141428;
+      --accent:   #7c6af7;
+      --accent2:  #a78bfa;
+      --cyan:     #22d3ee;
+      --green:    #34d399;
+      --pink:     #f472b6;
+      --text:     #e2e2f0;
+      --muted:    #7a7a96;
+      --border:   #1e1e35;
+      --glow:     rgba(124,106,247,.35);
     }
-
     html { scroll-behavior: smooth; }
-
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.65;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    /* ── SCROLL PROGRESS BAR ── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; z-index: 200;
+      background: linear-gradient(90deg, var(--accent), var(--cyan), var(--pink));
+      width: 0%; transition: width .1s linear;
     }
 
-    a { color: inherit; text-decoration: none; }
+    /* ── CANVAS PARTICLES ── */
+    #particles-canvas {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+    }
 
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; width: 100%; z-index: 100;
-      background: rgba(10,10,15,0.88);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 2.5rem;
+      background: rgba(6,6,16,0.75);
+      backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(124,106,247,.15);
+      padding: 1rem 3rem;
       display: flex; justify-content: space-between; align-items: center;
+      transition: all .3s;
     }
-    .nav-logo { font-weight: 800; font-size: 1.1rem; color: var(--accent2); letter-spacing: -0.02em; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { color: var(--muted); font-size: .9rem; transition: color .2s; }
+    nav.scrolled { padding: .7rem 3rem; background: rgba(6,6,16,.92); }
+    .nav-logo {
+      font-weight: 800; font-size: 1rem; letter-spacing: -.02em;
+      background: linear-gradient(135deg, var(--accent2), var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); font-size: .85rem; font-weight: 500;
+      transition: color .2s; position: relative; padding-bottom: 3px;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1.5px;
+      background: var(--accent2); transition: width .3s;
+    }
     .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff !important; padding: .45rem 1.2rem; border-radius: 6px;
+      font-size: .82rem !important; font-weight: 600 !important;
+    }
+    .nav-cta:hover { opacity: .9; transform: translateY(-1px); }
+    .nav-cta::after { display: none !important; }
 
     /* ── HERO ── */
     .hero {
-      min-height: 100vh;
+      min-height: 100vh; position: relative; z-index: 1;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
-      text-align: center; padding: 7rem 2rem 5rem;
-      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(108,99,255,.12), transparent);
+      text-align: center; padding: 8rem 2rem 6rem;
+      overflow: hidden;
     }
+    .hero-bg-orb {
+      position: absolute; border-radius: 50%; filter: blur(120px);
+      pointer-events: none; z-index: 0;
+    }
+    .orb1 {
+      width: 600px; height: 600px; top: -150px; left: -150px;
+      background: radial-gradient(circle, rgba(124,106,247,.18), transparent 70%);
+      animation: orbFloat 8s ease-in-out infinite;
+    }
+    .orb2 {
+      width: 500px; height: 500px; bottom: -100px; right: -100px;
+      background: radial-gradient(circle, rgba(34,211,238,.14), transparent 70%);
+      animation: orbFloat 10s ease-in-out infinite reverse;
+    }
+    .orb3 {
+      width: 300px; height: 300px; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      background: radial-gradient(circle, rgba(244,114,182,.1), transparent 70%);
+      animation: orbFloat 12s ease-in-out infinite;
+    }
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      33% { transform: translate(40px,-30px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(.97); }
+    }
+
+    .hero-inner { position: relative; z-index: 1; }
     .hero-badge {
       display: inline-flex; align-items: center; gap: .5rem;
-      background: rgba(52,211,153,.08); border: 1px solid rgba(52,211,153,.25);
-      color: var(--green); padding: .35rem 1rem;
-      border-radius: 999px; font-size: .82rem; font-weight: 600;
-      margin-bottom: 1.8rem;
+      border: 1px solid rgba(52,211,153,.3);
+      background: rgba(52,211,153,.06);
+      color: var(--green); padding: .4rem 1.1rem;
+      border-radius: 999px; font-size: .78rem; font-weight: 600;
+      letter-spacing: .05em; margin-bottom: 2rem;
+      animation: fadeDown .8s .2s both;
     }
-    .hero-badge::before { content: ''; width: 7px; height: 7px; background: var(--green); border-radius: 50%; display: inline-block; }
-    .hero h1 {
-      font-size: clamp(2.6rem, 6vw, 4.8rem); font-weight: 800;
-      line-height: 1.05; letter-spacing: -0.03em;
+    .badge-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+      animation: pulse 2s infinite;
     }
-    .hero h1 span { color: var(--accent2); }
-    .hero-role {
-      font-size: clamp(1.1rem, 2.5vw, 1.45rem);
-      color: var(--muted); margin-top: .8rem; font-weight: 400;
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(52,211,153,.5); }
+      50% { box-shadow: 0 0 0 6px rgba(52,211,153,0); }
     }
-    .hero-desc {
-      margin-top: 1.4rem; max-width: 620px;
-      color: var(--muted); font-size: 1.05rem;
-    }
-    .hero-stats {
-      display: flex; gap: 3rem; margin-top: 3rem; flex-wrap: wrap; justify-content: center;
-    }
-    .stat { text-align: center; }
-    .stat-num { font-size: 2rem; font-weight: 800; color: var(--accent2); }
-    .stat-label { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
-    .hero-cta { display: flex; gap: 1rem; margin-top: 2.8rem; flex-wrap: wrap; justify-content: center; }
-    .btn {
-      padding: .75rem 1.8rem; border-radius: 8px;
-      font-size: .95rem; font-weight: 600; text-decoration: none;
-      transition: all .2s; cursor: pointer; border: none; display: inline-block;
-    }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,99,255,.35); }
-    .btn-outline { border: 1px solid var(--border); color: var(--text); background: transparent; }
-    .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-2px); }
 
-    /* ── LAYOUT ── */
-    .section { padding: 5rem 2rem; max-width: 1080px; margin: 0 auto; }
-    .divider { height: 1px; background: var(--border); max-width: 1080px; margin: 0 auto; }
-    .section-eyebrow { color: var(--accent2); font-size: .78rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; margin-bottom: .5rem; }
-    .section-title { font-size: clamp(1.8rem, 3vw, 2.3rem); font-weight: 700; margin-bottom: 3rem; letter-spacing: -0.02em; }
+    .hero h1 {
+      font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 900;
+      line-height: 1.0; letter-spacing: -.04em;
+      animation: fadeUp .9s .4s both;
+    }
+    .grad-text {
+      background: linear-gradient(135deg, var(--accent2) 0%, var(--cyan) 50%, var(--pink) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-size: 200% 200%; animation: gradShift 4s ease infinite;
+    }
+    @keyframes gradShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .hero-role {
+      font-size: clamp(1rem, 2.5vw, 1.35rem); color: var(--muted);
+      margin-top: .9rem; font-weight: 400;
+      animation: fadeUp .9s .55s both;
+    }
+    .typewriter-wrap {
+      display: inline-block; min-width: 2ch;
+      color: var(--cyan); font-weight: 600;
+    }
+    #typewriter::after {
+      content: '|'; animation: blink .7s step-end infinite;
+      color: var(--accent2);
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    .hero-desc {
+      max-width: 560px; color: var(--muted); font-size: 1rem;
+      margin: 1.4rem auto 0; line-height: 1.75;
+      animation: fadeUp .9s .7s both;
+    }
+
+    /* STATS */
+    .hero-stats {
+      display: flex; gap: 2.5rem; margin: 3.5rem 0 0;
+      flex-wrap: wrap; justify-content: center;
+      animation: fadeUp .9s .85s both;
+    }
+    .stat {
+      text-align: center; position: relative;
+    }
+    .stat::after {
+      content: ''; position: absolute; right: -1.25rem; top: 10%; height: 80%;
+      width: 1px; background: var(--border);
+    }
+    .stat:last-child::after { display: none; }
+    .stat-num {
+      font-size: 2.4rem; font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, var(--accent2), var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-top: .3rem; }
+
+    .hero-cta {
+      display: flex; gap: 1rem; margin-top: 2.8rem;
+      flex-wrap: wrap; justify-content: center;
+      animation: fadeUp .9s 1s both;
+    }
+    .btn {
+      padding: .8rem 2rem; border-radius: 10px;
+      font-size: .92rem; font-weight: 600;
+      transition: all .25s; display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; box-shadow: 0 4px 20px var(--glow);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 32px var(--glow); }
+    .btn-outline {
+      border: 1px solid var(--border); color: var(--text);
+      background: rgba(255,255,255,.03);
+    }
+    .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-3px); }
+
+    /* SCROLL INDICATOR */
+    .scroll-indicator {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      color: var(--muted); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+      animation: fadeIn 1s 1.5s both;
+    }
+    .scroll-indicator i { font-size: .9rem; animation: bounce 2s infinite; }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+    /* ── PARALLAX SECTIONS ── */
+    .parallax-section { position: relative; z-index: 1; }
+    .parallax-bg {
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      overflow: hidden;
+    }
+    .parallax-shape {
+      position: absolute; border-radius: 50%; opacity: .06;
+      background: var(--accent);
+    }
+
+    /* ── SECTION LAYOUT ── */
+    .section { padding: 6rem 2rem; max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; }
+    .section-divider {
+      height: 1px; max-width: 1080px; margin: 0 auto;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+    .section-eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem;
+      color: var(--accent2); font-size: .72rem; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase; margin-bottom: .6rem;
+    }
+    .section-eyebrow::before {
+      content: ''; width: 24px; height: 1.5px; background: var(--accent2);
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.6rem); font-weight: 800;
+      letter-spacing: -.03em; margin-bottom: 3.5rem;
+    }
+
+    /* ── REVEAL ANIMATION ── */
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+    .reveal-delay-5 { transition-delay: .5s; }
+    .reveal-delay-6 { transition-delay: .6s; }
 
     /* ── ABOUT ── */
-    .about-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 4rem; align-items: start; }
+    .about-grid { display: grid; grid-template-columns: 300px 1fr; gap: 4rem; align-items: start; }
     .about-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 16px; padding: 2rem; text-align: center;
+      border-radius: 20px; padding: 2rem; text-align: center;
+      position: sticky; top: 6rem;
+      box-shadow: 0 0 0 1px rgba(124,106,247,.05), inset 0 1px 0 rgba(255,255,255,.04);
+      transition: box-shadow .3s;
     }
-    .avatar {
-      width: 100px; height: 100px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    .about-card:hover { box-shadow: 0 0 40px rgba(124,106,247,.12), 0 0 0 1px rgba(124,106,247,.2); }
+    .avatar-ring {
+      width: 110px; height: 110px; margin: 0 auto 1.2rem;
+      border-radius: 50%; padding: 3px;
+      background: linear-gradient(135deg, var(--accent), var(--cyan), var(--pink));
+      animation: spin-slow 8s linear infinite;
+    }
+    @keyframes spin-slow {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+    .avatar-inner {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: var(--surface2);
       display: flex; align-items: center; justify-content: center;
-      font-size: 2.8rem; margin: 0 auto 1.2rem;
+      font-size: 3rem;
     }
-    .about-card h3 { font-size: 1.2rem; font-weight: 700; }
-    .about-card p { color: var(--muted); font-size: .85rem; margin-top: .25rem; }
-    .about-card-links { display: flex; flex-direction: column; gap: .6rem; margin-top: 1.5rem; }
-    .about-card-link {
-      display: flex; align-items: center; gap: .6rem;
-      background: var(--surface2); border: 1px solid var(--border);
-      padding: .5rem .9rem; border-radius: 8px;
-      font-size: .82rem; color: var(--muted); transition: all .2s;
+    .about-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: .2rem; }
+    .about-card .role-text { color: var(--accent2); font-size: .82rem; font-weight: 600; }
+    .about-card .location { color: var(--muted); font-size: .78rem; margin-top: .25rem; }
+    .about-card .location i { color: var(--cyan); margin-right: .3rem; }
+    .about-divider { height: 1px; background: var(--border); margin: 1.2rem 0; }
+    .contact-items { display: flex; flex-direction: column; gap: .5rem; }
+    .contact-item {
+      display: flex; align-items: center; gap: .7rem;
+      padding: .55rem .8rem; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--surface2);
+      font-size: .78rem; color: var(--muted);
+      transition: all .2s; cursor: pointer;
     }
-    .about-card-link:hover { border-color: var(--accent2); color: var(--accent2); }
-    .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: 1rem; }
-    .about-text p:first-child { color: var(--text); font-size: 1.05rem; }
-    .edu-block { margin-top: 1.8rem; }
-    .edu-block h4 { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent2); margin-bottom: .8rem; }
-    .edu-item { margin-bottom: .8rem; }
-    .edu-item strong { display: block; font-size: .92rem; }
-    .edu-item span { font-size: .82rem; color: var(--muted); }
+    .contact-item:hover { border-color: var(--accent2); color: var(--text); }
+    .contact-item i { color: var(--accent2); width: 14px; text-align: center; flex-shrink: 0; }
+
+    .about-text > p { color: var(--muted); font-size: .97rem; margin-bottom: 1rem; }
+    .about-text > p:first-child { color: var(--text); font-size: 1.02rem; }
+
+    .edu-block { margin-top: 2rem; }
+    .edu-label {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .72rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem;
+    }
+    .edu-item {
+      display: flex; gap: .9rem; margin-bottom: 1rem; align-items: flex-start;
+    }
+    .edu-icon {
+      width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
+      background: rgba(124,106,247,.1); border: 1px solid rgba(124,106,247,.2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent2); font-size: .9rem;
+    }
+    .edu-item strong { display: block; font-size: .88rem; font-weight: 600; }
+    .edu-item span { font-size: .78rem; color: var(--muted); }
 
     /* ── SKILLS ── */
-    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.2rem; }
     .skill-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.2rem 1.4rem;
+      border-radius: 14px; padding: 1.4rem;
+      transition: all .3s; position: relative; overflow: hidden;
     }
-    .skill-card-label { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent2); margin-bottom: .6rem; }
+    .skill-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--cyan));
+      opacity: 0; transition: opacity .3s;
+    }
+    .skill-card:hover { border-color: rgba(124,106,247,.3); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.3); }
+    .skill-card:hover::before { opacity: 1; }
+    .skill-card-header { display: flex; align-items: center; gap: .7rem; margin-bottom: .9rem; }
+    .skill-icon {
+      width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .skill-card-label { font-size: .82rem; font-weight: 700; color: var(--text); }
     .skill-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
     .skill-tag {
-      background: var(--surface2); border: 1px solid var(--border);
-      padding: .25rem .65rem; border-radius: 5px;
-      font-size: .78rem; color: var(--muted);
+      background: rgba(255,255,255,.04); border: 1px solid var(--border);
+      padding: .22rem .62rem; border-radius: 5px;
+      font-size: .74rem; color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
     }
 
-    /* ── EXPERIENCE ── */
-    .timeline { position: relative; padding-left: 2rem; }
+    /* ── EXPERIENCE TIMELINE ── */
+    .timeline { position: relative; }
     .timeline::before {
-      content: ''; position: absolute; left: 0; top: 8px; bottom: 0;
-      width: 2px; background: var(--border);
+      content: ''; position: absolute; left: 18px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), var(--cyan), transparent);
     }
-    .tl-item { position: relative; margin-bottom: 2.8rem; }
+    .tl-item {
+      position: relative; padding-left: 3.5rem; margin-bottom: 3rem;
+      transition: all .3s;
+    }
     .tl-dot {
-      position: absolute; left: -2.375rem; top: 6px;
-      width: 12px; height: 12px; border-radius: 50%;
-      background: var(--accent); border: 2px solid var(--bg);
+      position: absolute; left: 10px; top: 5px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--accent); border: 3px solid var(--bg);
+      box-shadow: 0 0 0 3px rgba(124,106,247,.25);
+      transition: all .3s; z-index: 1;
     }
-    .tl-item:first-child .tl-dot { background: var(--green); box-shadow: 0 0 0 4px rgba(52,211,153,.15); }
-    .tl-date { font-size: .78rem; color: var(--muted); margin-bottom: .3rem; }
-    .tl-title { font-size: 1.05rem; font-weight: 700; }
-    .tl-company { font-size: .9rem; color: var(--accent2); margin-bottom: .6rem; }
-    .tl-desc { color: var(--muted); font-size: .88rem; margin-bottom: .8rem; font-style: italic; }
-    .tl-points { list-style: none; }
+    .tl-item:first-child .tl-dot {
+      background: var(--green);
+      box-shadow: 0 0 0 3px rgba(52,211,153,.25), 0 0 12px rgba(52,211,153,.3);
+      animation: pulse 2.5s infinite;
+    }
+    .tl-item:hover .tl-dot { transform: scale(1.3); }
+    .tl-inner {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.6rem 1.8rem;
+      transition: all .3s;
+    }
+    .tl-item:hover .tl-inner { border-color: rgba(124,106,247,.3); box-shadow: 0 8px 32px rgba(0,0,0,.25); }
+    .tl-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: .5rem; margin-bottom: .6rem; }
+    .tl-date {
+      font-size: .72rem; font-family: 'JetBrains Mono', monospace;
+      color: var(--cyan); background: rgba(34,211,238,.08);
+      border: 1px solid rgba(34,211,238,.2);
+      padding: .25rem .7rem; border-radius: 999px;
+    }
+    .tl-title { font-size: 1.05rem; font-weight: 700; margin-bottom: .2rem; }
+    .tl-company { font-size: .85rem; color: var(--accent2); font-weight: 600; margin-bottom: .7rem; }
+    .tl-company i { margin-right: .35rem; }
+    .tl-desc { color: var(--muted); font-size: .84rem; font-style: italic; margin-bottom: .9rem; border-left: 2px solid var(--border); padding-left: .8rem; }
+    .tl-points { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
     .tl-points li {
-      font-size: .87rem; color: var(--muted); margin-bottom: .35rem;
-      padding-left: 1rem; position: relative;
+      font-size: .84rem; color: var(--muted);
+      padding-left: 1.2rem; position: relative;
     }
-    .tl-points li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: .75rem; top: 1px; }
+    .tl-points li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: .7rem; top: 2px; }
     .tl-points li strong { color: var(--text); }
 
     /* ── PROJECTS ── */
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.4rem; }
     .project-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.6rem;
-      transition: border-color .2s, transform .2s;
+      border-radius: 16px; padding: 1.8rem;
+      transition: all .3s; position: relative; overflow: hidden;
       display: flex; flex-direction: column;
     }
-    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-    .project-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
-    .project-card p { color: var(--muted); font-size: .86rem; flex: 1; margin-bottom: 1rem; }
-    .project-tech { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .project-card::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(124,106,247,.04), transparent);
+      opacity: 0; transition: opacity .3s;
+    }
+    .project-card:hover { border-color: rgba(124,106,247,.4); transform: translateY(-6px) scale(1.01); box-shadow: 0 20px 60px rgba(0,0,0,.35), 0 0 0 1px rgba(124,106,247,.15); }
+    .project-card:hover::after { opacity: 1; }
+    .project-header { display: flex; align-items: center; gap: .8rem; margin-bottom: 1rem; }
+    .project-icon {
+      width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .project-card h3 { font-size: 1rem; font-weight: 700; line-height: 1.3; }
+    .project-card p { color: var(--muted); font-size: .84rem; flex: 1; margin-bottom: 1.2rem; line-height: 1.65; }
+    .project-tech { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: auto; }
     .project-tech span {
-      background: rgba(108,99,255,.1); color: var(--accent2);
-      padding: .2rem .55rem; border-radius: 4px; font-size: .74rem;
+      background: rgba(124,106,247,.1); color: var(--accent2);
+      border: 1px solid rgba(124,106,247,.2);
+      padding: .2rem .6rem; border-radius: 5px;
+      font-size: .72rem; font-family: 'JetBrains Mono', monospace;
     }
 
     /* ── CERTIFICATIONS ── */
-    .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+    .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
     .cert-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 1rem 1.2rem;
-      display: flex; align-items: center; gap: .9rem;
-      transition: border-color .2s;
+      border-radius: 12px; padding: 1.1rem 1.3rem;
+      display: flex; align-items: center; gap: 1rem;
+      transition: all .3s;
     }
-    .cert-card:hover { border-color: var(--accent2); }
-    .cert-icon { font-size: 1.6rem; flex-shrink: 0; }
-    .cert-name { font-size: .88rem; font-weight: 600; }
-    .cert-issuer { font-size: .78rem; color: var(--muted); }
+    .cert-card:hover { border-color: rgba(124,106,247,.35); transform: translateX(6px); box-shadow: -4px 0 20px rgba(124,106,247,.12); }
+    .cert-badge {
+      width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .cert-name { font-size: .88rem; font-weight: 600; margin-bottom: .15rem; }
+    .cert-issuer { font-size: .75rem; color: var(--muted); }
 
     /* ── CONTACT ── */
-    .contact-wrapper {
-      background: linear-gradient(135deg, var(--surface), var(--surface2));
+    .contact-section {
+      background: linear-gradient(135deg, rgba(124,106,247,.06), rgba(34,211,238,.04));
       border: 1px solid var(--border);
-      border-radius: 20px; padding: 3.5rem; text-align: center;
+      border-radius: 24px; padding: 4rem;
+      text-align: center; position: relative; overflow: hidden;
     }
-    .contact-wrapper h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: .8rem; }
-    .contact-wrapper p { color: var(--muted); max-width: 480px; margin: 0 auto 2.5rem; }
-    .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .contact-link {
-      display: flex; align-items: center; gap: .5rem;
-      color: var(--muted); text-decoration: none;
-      padding: .7rem 1.3rem; border-radius: 9px;
-      border: 1px solid var(--border); transition: all .2s; font-size: .88rem;
+    .contact-section::before {
+      content: ''; position: absolute; top: -80px; right: -80px;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,106,247,.12), transparent 70%);
+      pointer-events: none;
     }
-    .contact-link:hover { color: var(--accent2); border-color: var(--accent2); transform: translateY(-2px); }
+    .contact-section h3 {
+      font-size: 2.2rem; font-weight: 800; letter-spacing: -.03em; margin-bottom: .8rem;
+    }
+    .contact-section p { color: var(--muted); max-width: 460px; margin: 0 auto 2.8rem; }
+    .contact-grid { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .contact-btn {
+      display: inline-flex; align-items: center; gap: .6rem;
+      padding: .75rem 1.5rem; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--surface);
+      font-size: .86rem; font-weight: 600; color: var(--muted);
+      transition: all .25s;
+    }
+    .contact-btn i { font-size: 1rem; }
+    .contact-btn:hover { transform: translateY(-3px); color: var(--text); border-color: var(--accent2); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+    .contact-btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); border-color: transparent; color: #fff; }
+    .contact-btn.primary:hover { box-shadow: 0 8px 28px var(--glow); }
 
     /* ── FOOTER ── */
-    footer { text-align: center; padding: 2rem; color: var(--muted); font-size: .82rem; border-top: 1px solid var(--border); }
+    footer {
+      text-align: center; padding: 2.5rem 2rem;
+      color: var(--muted); font-size: .8rem;
+      border-top: 1px solid var(--border); position: relative; z-index: 1;
+    }
+    footer a { color: var(--accent2); }
 
-    @media (max-width: 768px) {
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
       .about-grid { grid-template-columns: 1fr; }
+      .about-card { position: static; }
+      nav { padding: 1rem 1.5rem; }
+      nav.scrolled { padding: .7rem 1.5rem; }
       .nav-links { display: none; }
-      .hero-stats { gap: 2rem; }
+      .contact-section { padding: 2.5rem 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <nav>
-    <span class="nav-logo">Jay Harish Jethva</span>
+  <!-- Progress Bar -->
+  <div id="progress-bar"></div>
+
+  <!-- Particle Canvas -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- ── NAV ── -->
+  <nav id="nav">
+    <span class="nav-logo">JHJ</span>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="nav-cta"><i class="fa-solid fa-paper-plane" style="font-size:.75rem"></i> Hire Me</a></li>
     </ul>
   </nav>
 
   <!-- ── HERO ── -->
-  <div class="hero">
-    <span class="hero-badge">Open to opportunities</span>
-    <h1>Jay Harish <span>Jethva</span></h1>
-    <p class="hero-role">Product Owner &amp; BI Solutions Architect</p>
-    <p class="hero-desc">10 years turning complex data into strategic advantage. I design scalable BI solutions that bridge business needs with data-driven decisions.</p>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Years Experience</div></div>
-      <div class="stat"><div class="stat-num">180+</div><div class="stat-label">Dashboards Built</div></div>
-      <div class="stat"><div class="stat-num">60%</div><div class="stat-label">Platform Adoption ↑</div></div>
-      <div class="stat"><div class="stat-num">50%</div><div class="stat-label">Data Ingestion ↓</div></div>
+  <section class="hero" id="home">
+    <div class="hero-bg-orb orb1"></div>
+    <div class="hero-bg-orb orb2"></div>
+    <div class="hero-bg-orb orb3"></div>
+
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Available for opportunities
+      </div>
+      <h1>Jay Harish<br><span class="grad-text">Jethva</span></h1>
+      <p class="hero-role">
+        <span class="typewriter-wrap"><span id="typewriter"></span></span>
+      </p>
+      <p class="hero-desc">10 years turning complex data into strategic advantage. I design scalable BI ecosystems that transform business decisions.</p>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num"><span class="counter" data-target="10">0</span>+</div>
+          <div class="stat-label"><i class="fa-regular fa-calendar" style="color:var(--accent2);margin-right:.3rem"></i>Years Exp.</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num"><span class="counter" data-target="180">0</span>+</div>
+          <div class="stat-label"><i class="fa-solid fa-chart-bar" style="color:var(--cyan);margin-right:.3rem"></i>Dashboards</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num"><span class="counter" data-target="60">0</span>%</div>
+          <div class="stat-label"><i class="fa-solid fa-arrow-trend-up" style="color:var(--green);margin-right:.3rem"></i>Adoption ↑</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num"><span class="counter" data-target="50">0</span>%</div>
+          <div class="stat-label"><i class="fa-solid fa-bolt" style="color:var(--pink);margin-right:.3rem"></i>Faster ETL</div>
+        </div>
+      </div>
+
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary"><i class="fa-solid fa-grid-2"></i> View Projects</a>
+        <a href="#contact" class="btn btn-outline"><i class="fa-solid fa-envelope"></i> Get in Touch</a>
+      </div>
     </div>
-    <div class="hero-cta">
-      <a href="#projects" class="btn btn-primary">View Projects</a>
-      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ── ABOUT ── -->
+  <div class="parallax-section" id="about">
+    <div class="parallax-bg">
+      <div class="parallax-shape" data-speed="0.3" style="width:400px;height:400px;top:-100px;right:-150px;background:var(--accent)"></div>
+      <div class="parallax-shape" data-speed="0.5" style="width:250px;height:250px;bottom:-80px;left:-80px;background:var(--cyan)"></div>
+    </div>
+    <div class="section">
+      <p class="section-eyebrow reveal"><i class="fa-solid fa-user"></i> About</p>
+      <h2 class="section-title reveal">Who I Am</h2>
+      <div class="about-grid">
+        <div class="reveal">
+          <div class="about-card">
+            <div class="avatar-ring">
+              <div class="avatar-inner">👨‍💼</div>
+            </div>
+            <h3>Jay Harish Jethva</h3>
+            <div class="role-text">Product Owner &amp; BI Solutions Architect</div>
+            <div class="location"><i class="fa-solid fa-location-dot"></i>Abu Dhabi, UAE</div>
+            <div class="about-divider"></div>
+            <div class="contact-items">
+              <a href="mailto:Jayh.jethva@gmail.com" class="contact-item">
+                <i class="fa-solid fa-envelope"></i> Jayh.jethva@gmail.com
+              </a>
+              <a href="tel:+971509506749" class="contact-item">
+                <i class="fa-solid fa-phone"></i> +971 50 950 6749
+              </a>
+              <a href="https://linkedin.com/in/jayharishjethva" target="_blank" class="contact-item">
+                <i class="fa-brands fa-linkedin"></i> linkedin.com/in/jayharishjethva
+              </a>
+              <a href="https://github.com/jayharish" target="_blank" class="contact-item">
+                <i class="fa-brands fa-github"></i> github.com/jayharish
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-text">
+          <p class="reveal reveal-delay-1">Product Owner with 10 years of experience in business intelligence, data strategy, and analytics product development. Skilled in defining product roadmaps, optimizing data visualization, and driving adoption of scalable BI solutions.</p>
+          <p class="reveal reveal-delay-2">Adept at bridging business needs with data-driven solutions — collaborating with stakeholders to build intuitive, impactful analytics products. Passionate about automation, innovation, and delivering measurable business value.</p>
+
+          <div class="edu-block reveal reveal-delay-3">
+            <div class="edu-label"><i class="fa-solid fa-graduation-cap"></i> Education</div>
+            <div class="edu-item">
+              <div class="edu-icon"><i class="fa-solid fa-university"></i></div>
+              <div>
+                <strong>New York University — New York, USA</strong>
+                <span>Master of Science, Technology Management</span>
+              </div>
+            </div>
+            <div class="edu-item">
+              <div class="edu-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+              <div>
+                <strong>State University of New York at Buffalo</strong>
+                <span>Bachelor of Science, Finance &amp; Economics</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="divider"></div>
-
-  <!-- ── ABOUT ── -->
-  <section class="section" id="about">
-    <p class="section-eyebrow">About</p>
-    <h2 class="section-title">Who I Am</h2>
-    <div class="about-grid">
-      <div>
-        <div class="about-card">
-          <div class="avatar">👨‍💼</div>
-          <h3>Jay Harish Jethva</h3>
-          <p>Product Owner &amp; BI Solutions Architect</p>
-          <p style="margin-top:.4rem;font-size:.8rem">Abu Dhabi, UAE</p>
-          <div class="about-card-links">
-            <a href="mailto:Jayh.jethva@gmail.com" class="about-card-link">✉️ Jayh.jethva@gmail.com</a>
-            <a href="tel:+971509506749" class="about-card-link">📞 +971 50 950 6749</a>
-            <a href="https://linkedin.com/in/jayharishjethva" target="_blank" class="about-card-link">💼 linkedin.com/in/jayharishjethva</a>
-            <a href="https://github.com/jayharish" target="_blank" class="about-card-link">🐙 github.com/jayharish</a>
-          </div>
-        </div>
-      </div>
-      <div class="about-text">
-        <p>Product Owner with 10 years of experience in business intelligence, data strategy, and analytics product development. Skilled in defining product roadmaps, optimizing data visualization, and driving adoption of scalable BI solutions.</p>
-        <p>Adept at bridging business needs with data-driven solutions, collaborating with stakeholders to build intuitive and impactful analytics products. Passionate about automation, innovation, and delivering measurable business value through BI.</p>
-        <div class="edu-block">
-          <h4>Education</h4>
-          <div class="edu-item">
-            <strong>New York University — New York, USA</strong>
-            <span>Master of Science, Technology Management</span>
-          </div>
-          <div class="edu-item">
-            <strong>State University of New York at Buffalo — USA</strong>
-            <span>Bachelor of Science in Finance &amp; Economics</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
+  <div class="section-divider"></div>
 
   <!-- ── SKILLS ── -->
-  <section class="section" id="skills">
-    <p class="section-eyebrow">Expertise</p>
-    <h2 class="section-title">Technical Skills</h2>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <div class="skill-card-label">BI Tools</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Power BI Fabric</span>
-          <span class="skill-tag">Tableau</span>
-          <span class="skill-tag">MicroStrategy</span>
-          <span class="skill-tag">Looker</span>
+  <div class="parallax-section" id="skills">
+    <div class="section">
+      <p class="section-eyebrow reveal"><i class="fa-solid fa-code"></i> Expertise</p>
+      <h2 class="section-title reveal">Technical Skills</h2>
+      <div class="skills-grid">
+
+        <div class="skill-card reveal reveal-delay-1">
+          <div class="skill-card-header">
+            <div class="skill-icon" style="background:rgba(124,106,247,.12);color:var(--accent2)"><i class="fa-solid fa-chart-pie"></i></div>
+            <div class="skill-card-label">BI Tools</div>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Power BI Fabric</span><span class="skill-tag">Tableau</span>
+            <span class="skill-tag">MicroStrategy</span><span class="skill-tag">Looker</span>
+          </div>
         </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">Data Engineering &amp; ETL</div>
-        <div class="skill-tags">
-          <span class="skill-tag">SQL Server</span>
-          <span class="skill-tag">Azure Synapse</span>
-          <span class="skill-tag">Databricks</span>
-          <span class="skill-tag">ETL Pipelines</span>
+
+        <div class="skill-card reveal reveal-delay-2">
+          <div class="skill-card-header">
+            <div class="skill-icon" style="background:rgba(34,211,238,.1);color:var(--cyan)"><i class="fa-solid fa-database"></i></div>
+            <div class="skill-card-label">Data Engineering &amp; ETL</div>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">SQL Server</span><span class="skill-tag">Azure Synapse</span>
+            <span class="skill-tag">Databricks</span><span class="skill-tag">ETL Pipelines</span>
+          </div>
         </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">Database &amp; Query Languages</div>
-        <div class="skill-tags">
-          <span class="skill-tag">SQL</span>
-          <span class="skill-tag">T-SQL</span>
-          <span class="skill-tag">DAX</span>
-          <span class="skill-tag">MDX</span>
+
+        <div class="skill-card reveal reveal-delay-3">
+          <div class="skill-card-header">
+            <div class="skill-icon" style="background:rgba(52,211,153,.1);color:var(--green)"><i class="fa-solid fa-terminal"></i></div>
+            <div class="skill-card-label">Query Languages</div>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">SQL</span><span class="skill-tag">T-SQL</span>
+            <span class="skill-tag">DAX</span><span class="skill-tag">MDX</span>
+          </div>
         </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">Cloud &amp; Big Data</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Azure Synapse</span>
-          <span class="skill-tag">Databricks</span>
-          <span class="skill-tag">Snowflake</span>
-          <span class="skill-tag">Microsoft Fabric</span>
+
+        <div class="skill-card reveal reveal-delay-4">
+          <div class="skill-card-header">
+            <div class="skill-icon" style="background:rgba(244,114,182,.1);color:var(--pink)"><i class="fa-brands fa-microsoft"></i></div>
+            <div class="skill-card-label">Cloud &amp; Big Data</div>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Azure Synapse</span><span class="skill-tag">Databricks</span>
+            <span class="skill-tag">Snowflake</span><span class="skill-tag">Microsoft Fabric</span>
+          </div>
         </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">Data Visualization</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Dashboard Design</span>
-          <span class="skill-tag">KPI Tracking</span>
-          <span class="skill-tag">UX/UI Optimization</span>
-          <span class="skill-tag">Data Storytelling</span>
+
+        <div class="skill-card reveal reveal-delay-5">
+          <div class="skill-card-header">
+            <div class="skill-icon" style="background:rgba(124,106,247,.12);color:var(--accent2)"><i class="fa-solid fa-eye"></i></div>
+            <div class="skill-card-label">Data Visualization</div>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Dashboard Design</span><span class="skill-tag">KPI Tracking</span>
+            <span class="skill-tag">UX/UI Optimization</span><span class="skill-tag">Data Storytelling</span>
+          </div>
         </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">Automation &amp; CI/CD</div>
-        <div class="skill-tags">
-          <span class="skill-tag">PowerShell</span>
-          <span class="skill-tag">DevOps</span>
-          <span class="skill-tag">Version Control</span>
-          <span class="skill-tag">Workflow Automation</span>
+
+        <div class="skill-card reveal reveal-delay-6">
+          <div class="skill-card-header">
+            <div class="skill-icon" style="background:rgba(34,211,238,.1);color:var(--cyan)"><i class="fa-solid fa-gears"></i></div>
+            <div class="skill-card-label">Automation &amp; CI/CD</div>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">PowerShell</span><span class="skill-tag">DevOps</span>
+            <span class="skill-tag">Version Control</span><span class="skill-tag">Workflow Automation</span>
+          </div>
         </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">Data Governance</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Data Modeling</span>
-          <span class="skill-tag">Metadata Management</span>
-          <span class="skill-tag">Data Quality Monitoring</span>
+
+        <div class="skill-card reveal reveal-delay-1">
+          <div class="skill-card-header">
+            <div class="skill-icon" style="background:rgba(52,211,153,.1);color:var(--green)"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="skill-card-label">Data Governance</div>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Data Modeling</span><span class="skill-tag">Metadata Management</span>
+            <span class="skill-tag">Data Quality Monitoring</span>
+          </div>
         </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-label">Product &amp; Leadership</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Product Roadmap</span>
-          <span class="skill-tag">Agile / Scrum</span>
-          <span class="skill-tag">Stakeholder Mgmt</span>
-          <span class="skill-tag">Team Leadership</span>
+
+        <div class="skill-card reveal reveal-delay-2">
+          <div class="skill-card-header">
+            <div class="skill-icon" style="background:rgba(244,114,182,.1);color:var(--pink)"><i class="fa-solid fa-people-group"></i></div>
+            <div class="skill-card-label">Product &amp; Leadership</div>
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Product Roadmap</span><span class="skill-tag">Agile / Scrum</span>
+            <span class="skill-tag">Stakeholder Mgmt</span><span class="skill-tag">Team Leadership</span>
+          </div>
         </div>
+
       </div>
     </div>
-  </section>
+  </div>
 
-  <div class="divider"></div>
+  <div class="section-divider"></div>
 
   <!-- ── EXPERIENCE ── -->
-  <section class="section" id="experience">
-    <p class="section-eyebrow">Career</p>
-    <h2 class="section-title">Professional Experience</h2>
-    <div class="timeline">
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">Aug 2022 – Present</div>
-        <div class="tl-title">Product Owner &amp; Fabric Analytics Engineer</div>
-        <div class="tl-company">Department of Health — Abu Dhabi, UAE</div>
-        <p class="tl-desc">Hired by the healthcare regulator to lead BI solution architecture, data governance, and analytics adoption for healthcare analytics initiatives.</p>
-        <ul class="tl-points">
-          <li><strong>BI Solution Architecture:</strong> Designed scalable BI framework integrating data pipelines, models, and visualization tools — analytics efficiency ↑ 50%.</li>
-          <li><strong>Product Ownership:</strong> Executed Healthcare Analytics Platform roadmap — platform adoption ↑ 60%.</li>
-          <li><strong>Data Engineering:</strong> Optimized ETL pipelines, reducing data ingestion time by 50% and query performance ↑ 45%.</li>
-          <li><strong>Advanced Analytics:</strong> Built KPI-driven dashboards reducing manual reporting by 40%.</li>
-          <li><strong>Data Science:</strong> Oversaw predictive analytics models — operational planning ↑ 30%.</li>
-          <li><strong>Data Governance:</strong> Standardized policies, reducing data security risks by 40%.</li>
-        </ul>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">Sep 2019 – Jul 2022</div>
-        <div class="tl-title">Business Strategy &amp; Analytics Lead</div>
-        <div class="tl-company">BALTCO — Abu Dhabi, UAE</div>
-        <p class="tl-desc">Led strategic direction, business intelligence, and data-driven transformation — overseeing end-to-end operations, analytics, and financial decision-making.</p>
-        <ul class="tl-points">
-          <li><strong>Business Strategy &amp; Growth:</strong> Executed data-driven strategies — revenue ↑ 22%.</li>
-          <li><strong>BI Architecture:</strong> Deployed centralized BI framework integrating financial, operational and sales data — reporting efficiency ↑ 45%.</li>
-          <li><strong>Financial Analytics:</strong> Implemented forecasting models — cost inefficiencies ↓ 33%.</li>
-          <li><strong>Process Automation:</strong> Streamlined operations, cutting manual workflows by 50%.</li>
-          <li><strong>Team Leadership:</strong> Built and mentored cross-functional teams fostering a data-driven culture.</li>
-        </ul>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">Sep 2017 – Aug 2019</div>
-        <div class="tl-title">BI Engineer / Solution Architect</div>
-        <div class="tl-company">Financial Sciences Corporation — New York City, USA</div>
-        <p class="tl-desc">Key role enhancing loan deal syndication and commercial paper trading software products — optimizing data visualization and product-driven analytics.</p>
-        <ul class="tl-points">
-          <li><strong>Product Development:</strong> Contributed to 3 major product enhancements — client adoption ↑ 40%.</li>
-          <li><strong>Dashboard Development:</strong> Designed interactive financial dashboards in Power BI &amp; Tableau — reporting turnaround ↓ 35%.</li>
-          <li><strong>Stakeholder Engagement:</strong> Worked with 20+ enterprise clients — customer satisfaction ↑ 25%.</li>
-          <li><strong>Training &amp; Support:</strong> Delivered training to 50+ users, improving product adoption.</li>
-        </ul>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">Jan 2016 – Aug 2017</div>
-        <div class="tl-title">Business Intelligence &amp; Product Strategy Lead</div>
-        <div class="tl-company">Wellacopia — New York City, USA</div>
-        <p class="tl-desc">Health-tech startup connecting patients with chronic illnesses to practitioners via AI-driven compatibility algorithm. Shaped data strategy, workflows, and BI capabilities.</p>
-        <ul class="tl-points">
-          <li><strong>User Analytics:</strong> Developed patient-practitioner engagement analytics — successful matches ↑ 25%.</li>
-          <li><strong>Revenue Analytics:</strong> Pricing model analysis — monetization &amp; retention ↑ 15%.</li>
-          <li><strong>Process Automation:</strong> Automated BI reporting — manual data handling ↓ 40%.</li>
-          <li><strong>Investor Support:</strong> Built data-backed financial models supporting early-stage funding.</li>
-        </ul>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">Sep 2014 – Dec 2015</div>
-        <div class="tl-title">BI &amp; Data Engineer</div>
-        <div class="tl-company">New York Public Radio — New York City, USA</div>
-        <p class="tl-desc">Enhanced data analytics capabilities, audience engagement strategies, and content performance metrics for a renowned public media organisation.</p>
-        <ul class="tl-points">
-          <li><strong>Audience Analytics:</strong> Developed analytics frameworks — user engagement ↑ 20%.</li>
-          <li><strong>Digital Optimization:</strong> Analyzed user interaction data — streaming &amp; podcast downloads ↑ 25%.</li>
-          <li><strong>Revenue through Data:</strong> Identified donor engagement patterns — membership contributions ↑ 18%.</li>
-        </ul>
-      </div>
-
+  <div class="parallax-section" id="experience">
+    <div class="parallax-bg">
+      <div class="parallax-shape" data-speed="0.4" style="width:350px;height:350px;top:10%;left:-120px;background:var(--pink)"></div>
     </div>
-  </section>
+    <div class="section">
+      <p class="section-eyebrow reveal"><i class="fa-solid fa-briefcase"></i> Career</p>
+      <h2 class="section-title reveal">Professional Experience</h2>
+      <div class="timeline">
 
-  <div class="divider"></div>
+        <div class="tl-item reveal">
+          <div class="tl-dot"></div>
+          <div class="tl-inner">
+            <div class="tl-header">
+              <div>
+                <div class="tl-title">Product Owner &amp; Fabric Analytics Engineer</div>
+                <div class="tl-company"><i class="fa-solid fa-building-columns"></i>Department of Health — Abu Dhabi, UAE</div>
+              </div>
+              <span class="tl-date">Aug 2022 – Present</span>
+            </div>
+            <p class="tl-desc">Hired by the healthcare regulator to lead BI solution architecture, data governance, and analytics adoption for national healthcare analytics initiatives.</p>
+            <ul class="tl-points">
+              <li><strong>BI Solution Architecture:</strong> Designed scalable BI framework — analytics efficiency ↑ 50%</li>
+              <li><strong>Product Ownership:</strong> Executed Healthcare Analytics Platform roadmap — adoption ↑ 60%</li>
+              <li><strong>Data Engineering:</strong> Optimized ETL pipelines — ingestion time ↓ 50%, query performance ↑ 45%</li>
+              <li><strong>Advanced Analytics:</strong> KPI-driven dashboards — manual reporting ↓ 40%</li>
+              <li><strong>Data Governance:</strong> Standardized governance policies — security risks ↓ 40%</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="tl-item reveal reveal-delay-1">
+          <div class="tl-dot"></div>
+          <div class="tl-inner">
+            <div class="tl-header">
+              <div>
+                <div class="tl-title">Business Strategy &amp; Analytics Lead</div>
+                <div class="tl-company"><i class="fa-solid fa-industry"></i>BALTCO — Abu Dhabi, UAE</div>
+              </div>
+              <span class="tl-date">Sep 2019 – Jul 2022</span>
+            </div>
+            <p class="tl-desc">Led strategic direction, BI, and data-driven transformation — overseeing end-to-end operations, analytics, and financial decision-making.</p>
+            <ul class="tl-points">
+              <li><strong>Business Strategy &amp; Growth:</strong> Data-driven strategies — revenue ↑ 22%</li>
+              <li><strong>BI Architecture:</strong> Centralized BI framework — reporting efficiency ↑ 45%</li>
+              <li><strong>Financial Analytics:</strong> Forecasting models — cost inefficiencies ↓ 33%</li>
+              <li><strong>Process Automation:</strong> Manual workflows ↓ 50%</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="tl-item reveal reveal-delay-2">
+          <div class="tl-dot"></div>
+          <div class="tl-inner">
+            <div class="tl-header">
+              <div>
+                <div class="tl-title">BI Engineer / Solution Architect</div>
+                <div class="tl-company"><i class="fa-solid fa-chart-line"></i>Financial Sciences Corporation — New York City, USA</div>
+              </div>
+              <span class="tl-date">Sep 2017 – Aug 2019</span>
+            </div>
+            <p class="tl-desc">Key role enhancing loan deal syndication and commercial paper trading software — optimizing data visualization and analytics.</p>
+            <ul class="tl-points">
+              <li><strong>Product Development:</strong> 3 major product enhancements — client adoption ↑ 40%</li>
+              <li><strong>Dashboard Development:</strong> Power BI &amp; Tableau — reporting turnaround ↓ 35%</li>
+              <li><strong>Stakeholder Engagement:</strong> 20+ enterprise clients — satisfaction ↑ 25%</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="tl-item reveal reveal-delay-3">
+          <div class="tl-dot"></div>
+          <div class="tl-inner">
+            <div class="tl-header">
+              <div>
+                <div class="tl-title">BI &amp; Product Strategy Lead</div>
+                <div class="tl-company"><i class="fa-solid fa-heart-pulse"></i>Wellacopia — New York City, USA</div>
+              </div>
+              <span class="tl-date">Jan 2016 – Aug 2017</span>
+            </div>
+            <p class="tl-desc">Health-tech startup connecting patients with practitioners via AI-driven matching algorithm. Shaped company data strategy and BI capabilities.</p>
+            <ul class="tl-points">
+              <li><strong>User Analytics:</strong> Engagement analytics — successful matches ↑ 25%</li>
+              <li><strong>Revenue Analytics:</strong> Monetisation &amp; retention ↑ 15%</li>
+              <li><strong>Process Automation:</strong> Manual data handling ↓ 40%</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="tl-item reveal reveal-delay-4">
+          <div class="tl-dot"></div>
+          <div class="tl-inner">
+            <div class="tl-header">
+              <div>
+                <div class="tl-title">BI &amp; Data Engineer</div>
+                <div class="tl-company"><i class="fa-solid fa-radio"></i>New York Public Radio — New York City, USA</div>
+              </div>
+              <span class="tl-date">Sep 2014 – Dec 2015</span>
+            </div>
+            <p class="tl-desc">Enhanced analytics capabilities, audience engagement strategies, and content performance metrics for a renowned public media organisation.</p>
+            <ul class="tl-points">
+              <li><strong>Audience Analytics:</strong> Frameworks across digital platforms — engagement ↑ 20%</li>
+              <li><strong>Digital Optimization:</strong> Streaming &amp; podcast downloads ↑ 25%</li>
+              <li><strong>Revenue through Data:</strong> Membership contributions ↑ 18%</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
 
   <!-- ── PROJECTS ── -->
-  <section class="section" id="projects">
-    <p class="section-eyebrow">Work</p>
-    <h2 class="section-title">Key Projects</h2>
-    <div class="projects-grid">
+  <div id="projects">
+    <div class="section">
+      <p class="section-eyebrow reveal"><i class="fa-solid fa-rocket"></i> Work</p>
+      <h2 class="section-title reveal">Key Projects</h2>
+      <div class="projects-grid">
 
-      <div class="project-card">
-        <h3>Healthcare Analytics Platform</h3>
-        <p>Designed and deployed 180+ dashboards across all DOH sectors, enabling real-time healthcare analytics for Abu Dhabi's health regulator.</p>
-        <div class="project-tech">
-          <span>Microsoft Fabric</span><span>Power BI</span><span>SQL Server</span>
-          <span>Azure Synapse</span><span>Databricks</span><span>DAX</span><span>Python</span>
+        <div class="project-card reveal reveal-delay-1">
+          <div class="project-header">
+            <div class="project-icon" style="background:rgba(124,106,247,.12);color:var(--accent2)"><i class="fa-solid fa-hospital"></i></div>
+            <h3>Healthcare Analytics Platform</h3>
+          </div>
+          <p>Designed and deployed 180+ dashboards across all DOH sectors, enabling real-time healthcare analytics for Abu Dhabi's national health regulator.</p>
+          <div class="project-tech">
+            <span>Microsoft Fabric</span><span>Power BI</span><span>SQL Server</span>
+            <span>Azure Synapse</span><span>Databricks</span><span>DAX</span><span>Python</span>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <h3>On-Prem to Cloud Migration</h3>
-        <p>Migrated 100+ enterprise reports from on-prem Tableau to cloud-based Power BI, improving accessibility and performance organisation-wide.</p>
-        <div class="project-tech">
-          <span>Power BI</span><span>Tableau</span><span>Azure Synapse</span>
-          <span>Microsoft Fabric</span><span>SQL</span><span>DAX</span>
+        <div class="project-card reveal reveal-delay-2">
+          <div class="project-header">
+            <div class="project-icon" style="background:rgba(34,211,238,.1);color:var(--cyan)"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+            <h3>On-Prem to Cloud Migration</h3>
+          </div>
+          <p>Migrated 100+ enterprise reports from on-prem Tableau to cloud-based Power BI, improving accessibility, performance, and collaboration.</p>
+          <div class="project-tech">
+            <span>Power BI</span><span>Tableau</span><span>Azure Synapse</span>
+            <span>Microsoft Fabric</span><span>SQL</span><span>DAX</span>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <h3>SQL Server to UDM Databricks Migration</h3>
-        <p>Led database migration from SQL Server to Unified Data Model (UDM) in Databricks, improving scalability and processing speed.</p>
-        <div class="project-tech">
-          <span>Databricks</span><span>SQL Server</span><span>Azure Data Factory</span>
-          <span>Power BI</span><span>Delta Lake</span><span>Python</span>
+        <div class="project-card reveal reveal-delay-3">
+          <div class="project-header">
+            <div class="project-icon" style="background:rgba(52,211,153,.1);color:var(--green)"><i class="fa-solid fa-server"></i></div>
+            <h3>SQL Server → UDM Databricks</h3>
+          </div>
+          <p>Led database migration from SQL Server to Unified Data Model in Databricks, dramatically improving scalability and processing throughput.</p>
+          <div class="project-tech">
+            <span>Databricks</span><span>SQL Server</span><span>Azure Data Factory</span>
+            <span>Delta Lake</span><span>Python</span>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <h3>Capacity Master Plan — AI/ML &amp; BI</h3>
-        <p>Managed Tier 1 consulting firm vendor to develop AI/ML-powered predictive analytics and Power BI solutions for healthcare capacity planning.</p>
-        <div class="project-tech">
-          <span>Power BI</span><span>Azure ML</span><span>Python</span>
-          <span>SQL</span><span>AI/ML Models</span>
+        <div class="project-card reveal reveal-delay-4">
+          <div class="project-header">
+            <div class="project-icon" style="background:rgba(244,114,182,.1);color:var(--pink)"><i class="fa-solid fa-brain"></i></div>
+            <h3>Capacity Master Plan — AI/ML</h3>
+          </div>
+          <p>Managed Tier 1 consulting vendor to deliver AI/ML-powered predictive analytics and Power BI solutions for healthcare capacity planning.</p>
+          <div class="project-tech">
+            <span>Power BI</span><span>Azure ML</span><span>Python</span>
+            <span>SQL</span><span>AI/ML Models</span>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <h3>FSC — Front-End Analytics Development</h3>
-        <p>Built the entire analytics front-end of FSC's financial software for treasury management and loan deal syndication, improving data visualization and usability.</p>
-        <div class="project-tech">
-          <span>JavaScript</span><span>Yellowfin BI</span><span>SQL</span><span>Python</span>
+        <div class="project-card reveal reveal-delay-5">
+          <div class="project-header">
+            <div class="project-icon" style="background:rgba(124,106,247,.12);color:var(--accent2)"><i class="fa-solid fa-chart-line"></i></div>
+            <h3>FSC — Analytics Front-End</h3>
+          </div>
+          <p>Built the entire analytics front-end for FSC's treasury management and loan deal syndication software, transforming raw data into real-time insights.</p>
+          <div class="project-tech">
+            <span>JavaScript</span><span>Yellowfin BI</span><span>SQL</span><span>Python</span>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <h3>Wellacopia — End-to-End App</h3>
-        <p>Led end-to-end development of a health-tech platform connecting patients with practitioners via AI-driven matching, from concept to deployment.</p>
-        <div class="project-tech">
-          <span>React Native</span><span>Firebase</span><span>SQL</span>
-          <span>Power BI</span><span>UX/UI Design</span>
+        <div class="project-card reveal reveal-delay-6">
+          <div class="project-header">
+            <div class="project-icon" style="background:rgba(34,211,238,.1);color:var(--cyan)"><i class="fa-solid fa-mobile-screen"></i></div>
+            <h3>Wellacopia — End-to-End App</h3>
+          </div>
+          <p>Led end-to-end development of a health-tech platform connecting patients with practitioners via AI-driven compatibility matching, from concept to launch.</p>
+          <div class="project-tech">
+            <span>React Native</span><span>Firebase</span><span>SQL</span>
+            <span>Power BI</span><span>UX/UI Design</span>
+          </div>
         </div>
-      </div>
 
-      <div class="project-card">
-        <h3>Baltco — Digital Transformation</h3>
-        <p>Transformed a traditional industrial trading business into a cloud-based, data-driven organisation with integrated ERP and analytics capabilities.</p>
-        <div class="project-tech">
-          <span>SQL Server</span><span>Tableau</span><span>Zoho ERP</span>
-          <span>Zoho CRM</span><span>Microsoft Excel</span>
+        <div class="project-card reveal reveal-delay-1">
+          <div class="project-header">
+            <div class="project-icon" style="background:rgba(52,211,153,.1);color:var(--green)"><i class="fa-solid fa-arrows-rotate"></i></div>
+            <h3>Baltco — Digital Transformation</h3>
+          </div>
+          <p>Transformed a traditional industrial trading business into a cloud-based, data-driven organisation with integrated ERP, CRM, and analytics.</p>
+          <div class="project-tech">
+            <span>SQL Server</span><span>Tableau</span><span>Zoho ERP</span>
+            <span>Zoho CRM</span><span>Microsoft Excel</span>
+          </div>
         </div>
-      </div>
 
+      </div>
     </div>
-  </section>
+  </div>
 
-  <div class="divider"></div>
+  <div class="section-divider"></div>
 
   <!-- ── CERTIFICATIONS ── -->
-  <section class="section" id="certs">
-    <p class="section-eyebrow">Credentials</p>
-    <h2 class="section-title">Certifications</h2>
-    <div class="certs-grid">
-      <div class="cert-card">
-        <span class="cert-icon">🏆</span>
-        <div>
-          <div class="cert-name">Azure Fabric Analytics Engineer</div>
-          <div class="cert-issuer">Microsoft</div>
+  <div id="certs">
+    <div class="section">
+      <p class="section-eyebrow reveal"><i class="fa-solid fa-award"></i> Credentials</p>
+      <h2 class="section-title reveal">Certifications</h2>
+      <div class="certs-grid">
+        <div class="cert-card reveal reveal-delay-1">
+          <div class="cert-badge" style="background:rgba(124,106,247,.1)">🏆</div>
+          <div>
+            <div class="cert-name">Azure Fabric Analytics Engineer</div>
+            <div class="cert-issuer"><i class="fa-brands fa-microsoft" style="color:var(--accent2);margin-right:.3rem"></i>Microsoft</div>
+          </div>
         </div>
-      </div>
-      <div class="cert-card">
-        <span class="cert-icon">🤖</span>
-        <div>
-          <div class="cert-name">Microsoft AI &amp; Co-pilot SME</div>
-          <div class="cert-issuer">Microsoft</div>
+        <div class="cert-card reveal reveal-delay-2">
+          <div class="cert-badge" style="background:rgba(34,211,238,.08)">🤖</div>
+          <div>
+            <div class="cert-name">Microsoft AI &amp; Co-pilot SME</div>
+            <div class="cert-issuer"><i class="fa-brands fa-microsoft" style="color:var(--accent2);margin-right:.3rem"></i>Microsoft</div>
+          </div>
         </div>
-      </div>
-      <div class="cert-card">
-        <span class="cert-icon">📊</span>
-        <div>
-          <div class="cert-name">MicroStrategy Developer</div>
-          <div class="cert-issuer">MicroStrategy</div>
+        <div class="cert-card reveal reveal-delay-3">
+          <div class="cert-badge" style="background:rgba(52,211,153,.08)">📊</div>
+          <div>
+            <div class="cert-name">MicroStrategy Developer</div>
+            <div class="cert-issuer"><i class="fa-solid fa-chart-column" style="color:var(--green);margin-right:.3rem"></i>MicroStrategy</div>
+          </div>
         </div>
-      </div>
-      <div class="cert-card">
-        <span class="cert-icon">🎓</span>
-        <div>
-          <div class="cert-name">Certified Data Analyst</div>
-          <div class="cert-issuer">General Assembly — New York</div>
+        <div class="cert-card reveal reveal-delay-4">
+          <div class="cert-badge" style="background:rgba(244,114,182,.08)">🎓</div>
+          <div>
+            <div class="cert-name">Certified Data Analyst</div>
+            <div class="cert-issuer"><i class="fa-solid fa-school" style="color:var(--pink);margin-right:.3rem"></i>General Assembly — New York</div>
+          </div>
         </div>
-      </div>
-      <div class="cert-card">
-        <span class="cert-icon">🔬</span>
-        <div>
-          <div class="cert-name">IBM Data Scientist</div>
-          <div class="cert-issuer">IBM</div>
+        <div class="cert-card reveal reveal-delay-5">
+          <div class="cert-badge" style="background:rgba(124,106,247,.1)">🔬</div>
+          <div>
+            <div class="cert-name">IBM Data Scientist</div>
+            <div class="cert-issuer"><i class="fa-solid fa-flask" style="color:var(--accent2);margin-right:.3rem"></i>IBM</div>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <div class="divider"></div>
+  <div class="section-divider"></div>
 
   <!-- ── CONTACT ── -->
-  <section class="section" id="contact">
-    <div class="contact-wrapper">
-      <h3>Let's Work Together</h3>
-      <p>Whether you have a project, a role to discuss, or just want to connect — I'd love to hear from you.</p>
-      <div class="contact-links">
-        <a href="mailto:Jayh.jethva@gmail.com" class="contact-link">✉️ Jayh.jethva@gmail.com</a>
-        <a href="https://linkedin.com/in/jayharishjethva" target="_blank" class="contact-link">💼 LinkedIn</a>
-        <a href="tel:+971509506749" class="contact-link">📞 +971 50 950 6749</a>
-        <a href="https://github.com/jayharish" target="_blank" class="contact-link">🐙 GitHub</a>
+  <div id="contact">
+    <div class="section">
+      <div class="contact-section reveal">
+        <p class="section-eyebrow" style="justify-content:center"><i class="fa-solid fa-comments"></i> Contact</p>
+        <h3>Let's Work Together</h3>
+        <p>Whether you have a project, a role to discuss, or just want to connect — I'd love to hear from you.</p>
+        <div class="contact-grid">
+          <a href="mailto:Jayh.jethva@gmail.com" class="contact-btn primary">
+            <i class="fa-solid fa-envelope"></i> Jayh.jethva@gmail.com
+          </a>
+          <a href="https://linkedin.com/in/jayharishjethva" target="_blank" class="contact-btn">
+            <i class="fa-brands fa-linkedin"></i> LinkedIn
+          </a>
+          <a href="tel:+971509506749" class="contact-btn">
+            <i class="fa-solid fa-phone"></i> +971 50 950 6749
+          </a>
+          <a href="https://github.com/jayharish" target="_blank" class="contact-btn">
+            <i class="fa-brands fa-github"></i> GitHub
+          </a>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <footer>
-    <p>© 2026 Jay Harish Jethva · <a href="https://github.com/jayharish/jayharish.github.io" style="color:var(--accent2)">View Source</a></p>
+    <p>© 2026 Jay Harish Jethva &nbsp;·&nbsp; <a href="https://github.com/jayharish/jayharish.github.io">View Source <i class="fa-brands fa-github"></i></a></p>
   </footer>
 
+  <!-- ── JAVASCRIPT ── -->
+  <script>
+    /* ── PARTICLES ── */
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', () => { resize(); initParticles(); });
+
+    function initParticles() {
+      particles = [];
+      const count = Math.floor((W * H) / 14000);
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.5 + .3,
+          dx: (Math.random() - .5) * .25,
+          dy: (Math.random() - .5) * .25,
+          a: Math.random() * .5 + .1,
+          hue: [267, 191, 330][Math.floor(Math.random() * 3)]
+        });
+      }
+    }
+    initParticles();
+
+    let mouseX = W / 2, mouseY = H / 2;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, W, H);
+      for (let p of particles) {
+        p.x += p.dx; p.y += p.dy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${p.hue},80%,70%,${p.a})`;
+        ctx.fill();
+      }
+      // Connect nearby particles
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(124,106,247,${.08 * (1 - dist / 100)})`;
+            ctx.lineWidth = .6;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
+    /* ── SCROLL PROGRESS ── */
+    const progressBar = document.getElementById('progress-bar');
+    function updateProgress() {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (scrolled / total * 100) + '%';
+    }
+
+    /* ── NAV SCROLL ── */
+    const nav = document.getElementById('nav');
+    function updateNav() {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }
+
+    /* ── PARALLAX ── */
+    function updateParallax() {
+      const scrollY = window.scrollY;
+      document.querySelectorAll('.parallax-shape').forEach(el => {
+        const speed = parseFloat(el.dataset.speed || .3);
+        const rect = el.closest('.parallax-section').getBoundingClientRect();
+        const offset = (rect.top + scrollY) * speed * .3;
+        el.style.transform = `translateY(${scrollY * speed * .15}px)`;
+      });
+    }
+
+    /* ── SCROLL REVEAL ── */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    window.addEventListener('scroll', () => {
+      updateProgress();
+      updateNav();
+      updateParallax();
+    });
+
+    /* ── COUNTER ANIMATION ── */
+    function animateCounter(el) {
+      const target = parseInt(el.dataset.target);
+      const duration = 1800;
+      const start = performance.now();
+      function step(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(eased * target);
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+    /* ── TYPEWRITER ── */
+    const roles = [
+      'Product Owner',
+      'BI Solutions Architect',
+      'Data Strategist',
+      'Analytics Leader',
+      'Power BI Expert',
+    ];
+    let roleIdx = 0, charIdx = 0, deleting = false;
+    const tw = document.getElementById('typewriter');
+
+    function type() {
+      const current = roles[roleIdx];
+      if (!deleting) {
+        tw.textContent = current.slice(0, ++charIdx);
+        if (charIdx === current.length) {
+          deleting = true;
+          setTimeout(type, 2000);
+          return;
+        }
+      } else {
+        tw.textContent = current.slice(0, --charIdx);
+        if (charIdx === 0) {
+          deleting = false;
+          roleIdx = (roleIdx + 1) % roles.length;
+        }
+      }
+      setTimeout(type, deleting ? 45 : 80);
+    }
+    type();
+
+    /* ── 3D TILT on project cards ── */
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotX = -(y / rect.height) * 8;
+        const rotY =  (x / rect.width)  * 8;
+        card.style.transform = `translateY(-6px) scale(1.01) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        card.style.transformOrigin = 'center';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  </script>
 </body>
 </html>
