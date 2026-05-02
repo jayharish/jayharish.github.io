@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jay Jethva — Portfolio</title>
+  <title>Jay Harish Jethva — Product Owner & BI Solutions Architect</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0f0f11;
-      --surface: #1a1a1f;
-      --accent: #7c6af7;
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c26;
+      --accent: #6c63ff;
       --accent2: #a78bfa;
+      --accent3: #38bdf8;
       --text: #e8e8f0;
-      --muted: #8b8b9a;
-      --border: #2a2a35;
+      --muted: #8b8b9e;
+      --border: #232330;
+      --green: #34d399;
     }
 
     html { scroll-behavior: smooth; }
@@ -23,233 +26,572 @@
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
-    /* NAV */
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
     nav {
       position: fixed; top: 0; width: 100%; z-index: 100;
-      background: rgba(15,15,17,0.85);
-      backdrop-filter: blur(12px);
+      background: rgba(10,10,15,0.88);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
+      padding: 1rem 2.5rem;
       display: flex; justify-content: space-between; align-items: center;
     }
-    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--accent2); }
+    .nav-logo { font-weight: 800; font-size: 1.1rem; color: var(--accent2); letter-spacing: -0.02em; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { color: var(--muted); text-decoration: none; transition: color .2s; }
+    .nav-links a { color: var(--muted); font-size: .9rem; transition: color .2s; }
     .nav-links a:hover { color: var(--text); }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero {
       min-height: 100vh;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
-      text-align: center; padding: 6rem 2rem 4rem;
+      text-align: center; padding: 7rem 2rem 5rem;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(108,99,255,.12), transparent);
     }
     .hero-badge {
-      display: inline-block;
-      background: rgba(124,106,247,.15);
-      border: 1px solid rgba(124,106,247,.3);
-      color: var(--accent2);
-      padding: .3rem .9rem;
-      border-radius: 999px;
-      font-size: .85rem;
-      margin-bottom: 1.5rem;
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(52,211,153,.08); border: 1px solid rgba(52,211,153,.25);
+      color: var(--green); padding: .35rem 1rem;
+      border-radius: 999px; font-size: .82rem; font-weight: 600;
+      margin-bottom: 1.8rem;
     }
-    .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; }
+    .hero-badge::before { content: ''; width: 7px; height: 7px; background: var(--green); border-radius: 50%; display: inline-block; }
+    .hero h1 {
+      font-size: clamp(2.6rem, 6vw, 4.8rem); font-weight: 800;
+      line-height: 1.05; letter-spacing: -0.03em;
+    }
     .hero h1 span { color: var(--accent2); }
-    .hero p {
-      margin-top: 1.2rem; max-width: 560px;
-      color: var(--muted); font-size: 1.1rem;
+    .hero-role {
+      font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+      color: var(--muted); margin-top: .8rem; font-weight: 400;
     }
-    .hero-cta { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; justify-content: center; }
+    .hero-desc {
+      margin-top: 1.4rem; max-width: 620px;
+      color: var(--muted); font-size: 1.05rem;
+    }
+    .hero-stats {
+      display: flex; gap: 3rem; margin-top: 3rem; flex-wrap: wrap; justify-content: center;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 2rem; font-weight: 800; color: var(--accent2); }
+    .stat-label { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .hero-cta { display: flex; gap: 1rem; margin-top: 2.8rem; flex-wrap: wrap; justify-content: center; }
     .btn {
       padding: .75rem 1.8rem; border-radius: 8px;
-      font-size: 1rem; font-weight: 600; text-decoration: none;
-      transition: all .2s; cursor: pointer; border: none;
+      font-size: .95rem; font-weight: 600; text-decoration: none;
+      transition: all .2s; cursor: pointer; border: none; display: inline-block;
     }
     .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,99,255,.35); }
     .btn-outline { border: 1px solid var(--border); color: var(--text); background: transparent; }
     .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); transform: translateY(-2px); }
 
-    /* SECTIONS */
-    section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
-    .section-label { color: var(--accent2); font-size: .85rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .5rem; }
-    .section-title { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 700; margin-bottom: 3rem; }
+    /* ── LAYOUT ── */
+    .section { padding: 5rem 2rem; max-width: 1080px; margin: 0 auto; }
+    .divider { height: 1px; background: var(--border); max-width: 1080px; margin: 0 auto; }
+    .section-eyebrow { color: var(--accent2); font-size: .78rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; margin-bottom: .5rem; }
+    .section-title { font-size: clamp(1.8rem, 3vw, 2.3rem); font-weight: 700; margin-bottom: 3rem; letter-spacing: -0.02em; }
 
-    /* ABOUT */
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
-    .about-img {
-      width: 100%; aspect-ratio: 1;
-      border-radius: 16px; background: var(--surface);
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 6rem;
-    }
-    .about-text p { color: var(--muted); margin-bottom: 1rem; }
-    .skills { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; }
-    .skill-tag {
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 4rem; align-items: start; }
+    .about-card {
       background: var(--surface); border: 1px solid var(--border);
-      padding: .35rem .9rem; border-radius: 6px;
-      font-size: .85rem; color: var(--muted);
+      border-radius: 16px; padding: 2rem; text-align: center;
+    }
+    .avatar {
+      width: 100px; height: 100px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem; margin: 0 auto 1.2rem;
+    }
+    .about-card h3 { font-size: 1.2rem; font-weight: 700; }
+    .about-card p { color: var(--muted); font-size: .85rem; margin-top: .25rem; }
+    .about-card-links { display: flex; flex-direction: column; gap: .6rem; margin-top: 1.5rem; }
+    .about-card-link {
+      display: flex; align-items: center; gap: .6rem;
+      background: var(--surface2); border: 1px solid var(--border);
+      padding: .5rem .9rem; border-radius: 8px;
+      font-size: .82rem; color: var(--muted); transition: all .2s;
+    }
+    .about-card-link:hover { border-color: var(--accent2); color: var(--accent2); }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: 1rem; }
+    .about-text p:first-child { color: var(--text); font-size: 1.05rem; }
+    .edu-block { margin-top: 1.8rem; }
+    .edu-block h4 { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent2); margin-bottom: .8rem; }
+    .edu-item { margin-bottom: .8rem; }
+    .edu-item strong { display: block; font-size: .92rem; }
+    .edu-item span { font-size: .82rem; color: var(--muted); }
+
+    /* ── SKILLS ── */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+    .skill-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem 1.4rem;
+    }
+    .skill-card-label { font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent2); margin-bottom: .6rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .skill-tag {
+      background: var(--surface2); border: 1px solid var(--border);
+      padding: .25rem .65rem; border-radius: 5px;
+      font-size: .78rem; color: var(--muted);
     }
 
-    /* PROJECTS */
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    /* ── EXPERIENCE ── */
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 8px; bottom: 0;
+      width: 2px; background: var(--border);
+    }
+    .tl-item { position: relative; margin-bottom: 2.8rem; }
+    .tl-dot {
+      position: absolute; left: -2.375rem; top: 6px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--bg);
+    }
+    .tl-item:first-child .tl-dot { background: var(--green); box-shadow: 0 0 0 4px rgba(52,211,153,.15); }
+    .tl-date { font-size: .78rem; color: var(--muted); margin-bottom: .3rem; }
+    .tl-title { font-size: 1.05rem; font-weight: 700; }
+    .tl-company { font-size: .9rem; color: var(--accent2); margin-bottom: .6rem; }
+    .tl-desc { color: var(--muted); font-size: .88rem; margin-bottom: .8rem; font-style: italic; }
+    .tl-points { list-style: none; }
+    .tl-points li {
+      font-size: .87rem; color: var(--muted); margin-bottom: .35rem;
+      padding-left: 1rem; position: relative;
+    }
+    .tl-points li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: .75rem; top: 1px; }
+    .tl-points li strong { color: var(--text); }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.4rem; }
     .project-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.5rem;
+      border-radius: 14px; padding: 1.6rem;
       transition: border-color .2s, transform .2s;
+      display: flex; flex-direction: column;
     }
     .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-    .project-card h3 { font-size: 1.1rem; margin-bottom: .5rem; }
-    .project-card p { color: var(--muted); font-size: .9rem; margin-bottom: 1rem; }
-    .project-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
-    .project-tag {
-      background: rgba(124,106,247,.12); color: var(--accent2);
-      padding: .2rem .6rem; border-radius: 4px; font-size: .78rem;
+    .project-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+    .project-card p { color: var(--muted); font-size: .86rem; flex: 1; margin-bottom: 1rem; }
+    .project-tech { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .project-tech span {
+      background: rgba(108,99,255,.1); color: var(--accent2);
+      padding: .2rem .55rem; border-radius: 4px; font-size: .74rem;
     }
-    .project-links { display: flex; gap: 1rem; }
-    .project-links a { color: var(--muted); font-size: .85rem; text-decoration: none; }
-    .project-links a:hover { color: var(--accent2); }
 
-    /* CONTACT */
-    .contact-wrapper {
+    /* ── CERTIFICATIONS ── */
+    .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+    .cert-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 16px; padding: 3rem; text-align: center;
+      border-radius: 10px; padding: 1rem 1.2rem;
+      display: flex; align-items: center; gap: .9rem;
+      transition: border-color .2s;
     }
-    .contact-wrapper p { color: var(--muted); margin-bottom: 2rem; }
-    .contact-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+    .cert-card:hover { border-color: var(--accent2); }
+    .cert-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .cert-name { font-size: .88rem; font-weight: 600; }
+    .cert-issuer { font-size: .78rem; color: var(--muted); }
+
+    /* ── CONTACT ── */
+    .contact-wrapper {
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border);
+      border-radius: 20px; padding: 3.5rem; text-align: center;
+    }
+    .contact-wrapper h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: .8rem; }
+    .contact-wrapper p { color: var(--muted); max-width: 480px; margin: 0 auto 2.5rem; }
+    .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
     .contact-link {
       display: flex; align-items: center; gap: .5rem;
       color: var(--muted); text-decoration: none;
-      padding: .6rem 1.2rem; border-radius: 8px;
-      border: 1px solid var(--border); transition: all .2s;
+      padding: .7rem 1.3rem; border-radius: 9px;
+      border: 1px solid var(--border); transition: all .2s; font-size: .88rem;
     }
-    .contact-link:hover { color: var(--accent2); border-color: var(--accent2); }
+    .contact-link:hover { color: var(--accent2); border-color: var(--accent2); transform: translateY(-2px); }
 
-    /* FOOTER */
-    footer {
-      text-align: center; padding: 2rem;
-      color: var(--muted); font-size: .85rem;
-      border-top: 1px solid var(--border);
-    }
+    /* ── FOOTER ── */
+    footer { text-align: center; padding: 2rem; color: var(--muted); font-size: .82rem; border-top: 1px solid var(--border); }
 
-    @media (max-width: 700px) {
+    @media (max-width: 768px) {
       .about-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
+      .hero-stats { gap: 2rem; }
     }
   </style>
 </head>
 <body>
 
   <nav>
-    <span class="nav-logo">JJ</span>
+    <span class="nav-logo">Jay Harish Jethva</span>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <span class="hero-badge">Available for work</span>
-    <h1>Hi, I'm <span>Jay Jethva</span></h1>
-    <p>A developer who builds clean, purposeful products. I love turning ideas into real things.</p>
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <span class="hero-badge">Open to opportunities</span>
+    <h1>Jay Harish <span>Jethva</span></h1>
+    <p class="hero-role">Product Owner &amp; BI Solutions Architect</p>
+    <p class="hero-desc">10 years turning complex data into strategic advantage. I design scalable BI solutions that bridge business needs with data-driven decisions.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Years Experience</div></div>
+      <div class="stat"><div class="stat-num">180+</div><div class="stat-label">Dashboards Built</div></div>
+      <div class="stat"><div class="stat-num">60%</div><div class="stat-label">Platform Adoption ↑</div></div>
+      <div class="stat"><div class="stat-num">50%</div><div class="stat-label">Data Ingestion ↓</div></div>
+    </div>
     <div class="hero-cta">
       <a href="#projects" class="btn btn-primary">View Projects</a>
       <a href="#contact" class="btn btn-outline">Get in Touch</a>
     </div>
-  </section>
+  </div>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <p class="section-label">About</p>
+  <div class="divider"></div>
+
+  <!-- ── ABOUT ── -->
+  <section class="section" id="about">
+    <p class="section-eyebrow">About</p>
     <h2 class="section-title">Who I Am</h2>
     <div class="about-grid">
-      <div class="about-img">👨‍💻</div>
+      <div>
+        <div class="about-card">
+          <div class="avatar">👨‍💼</div>
+          <h3>Jay Harish Jethva</h3>
+          <p>Product Owner &amp; BI Solutions Architect</p>
+          <p style="margin-top:.4rem;font-size:.8rem">Abu Dhabi, UAE</p>
+          <div class="about-card-links">
+            <a href="mailto:Jayh.jethva@gmail.com" class="about-card-link">✉️ Jayh.jethva@gmail.com</a>
+            <a href="tel:+971509506749" class="about-card-link">📞 +971 50 950 6749</a>
+            <a href="https://linkedin.com/in/jayharishjethva" target="_blank" class="about-card-link">💼 linkedin.com/in/jayharishjethva</a>
+            <a href="https://github.com/jayharish" target="_blank" class="about-card-link">🐙 github.com/jayharish</a>
+          </div>
+        </div>
+      </div>
       <div class="about-text">
-        <p>I'm Jay — a software developer passionate about building things that matter. I enjoy working across the stack and care deeply about clean code and great user experiences.</p>
-        <p>When I'm not coding, you'll find me exploring new technologies, contributing to open source, or working on side projects that scratch my own itch.</p>
-        <div class="skills">
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">JavaScript</span>
-          <span class="skill-tag">React</span>
-          <span class="skill-tag">Node.js</span>
-          <span class="skill-tag">SQL</span>
-          <span class="skill-tag">Git</span>
-          <!-- Add your own skills here -->
+        <p>Product Owner with 10 years of experience in business intelligence, data strategy, and analytics product development. Skilled in defining product roadmaps, optimizing data visualization, and driving adoption of scalable BI solutions.</p>
+        <p>Adept at bridging business needs with data-driven solutions, collaborating with stakeholders to build intuitive and impactful analytics products. Passionate about automation, innovation, and delivering measurable business value through BI.</p>
+        <div class="edu-block">
+          <h4>Education</h4>
+          <div class="edu-item">
+            <strong>New York University — New York, USA</strong>
+            <span>Master of Science, Technology Management</span>
+          </div>
+          <div class="edu-item">
+            <strong>State University of New York at Buffalo — USA</strong>
+            <span>Bachelor of Science in Finance &amp; Economics</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <p class="section-label">Work</p>
-    <h2 class="section-title">Projects</h2>
+  <div class="divider"></div>
+
+  <!-- ── SKILLS ── -->
+  <section class="section" id="skills">
+    <p class="section-eyebrow">Expertise</p>
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-card-label">BI Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Power BI Fabric</span>
+          <span class="skill-tag">Tableau</span>
+          <span class="skill-tag">MicroStrategy</span>
+          <span class="skill-tag">Looker</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Data Engineering &amp; ETL</div>
+        <div class="skill-tags">
+          <span class="skill-tag">SQL Server</span>
+          <span class="skill-tag">Azure Synapse</span>
+          <span class="skill-tag">Databricks</span>
+          <span class="skill-tag">ETL Pipelines</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Database &amp; Query Languages</div>
+        <div class="skill-tags">
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">T-SQL</span>
+          <span class="skill-tag">DAX</span>
+          <span class="skill-tag">MDX</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Cloud &amp; Big Data</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Azure Synapse</span>
+          <span class="skill-tag">Databricks</span>
+          <span class="skill-tag">Snowflake</span>
+          <span class="skill-tag">Microsoft Fabric</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Data Visualization</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Dashboard Design</span>
+          <span class="skill-tag">KPI Tracking</span>
+          <span class="skill-tag">UX/UI Optimization</span>
+          <span class="skill-tag">Data Storytelling</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Automation &amp; CI/CD</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PowerShell</span>
+          <span class="skill-tag">DevOps</span>
+          <span class="skill-tag">Version Control</span>
+          <span class="skill-tag">Workflow Automation</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Data Governance</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Data Modeling</span>
+          <span class="skill-tag">Metadata Management</span>
+          <span class="skill-tag">Data Quality Monitoring</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-label">Product &amp; Leadership</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Product Roadmap</span>
+          <span class="skill-tag">Agile / Scrum</span>
+          <span class="skill-tag">Stakeholder Mgmt</span>
+          <span class="skill-tag">Team Leadership</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── EXPERIENCE ── -->
+  <section class="section" id="experience">
+    <p class="section-eyebrow">Career</p>
+    <h2 class="section-title">Professional Experience</h2>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Aug 2022 – Present</div>
+        <div class="tl-title">Product Owner &amp; Fabric Analytics Engineer</div>
+        <div class="tl-company">Department of Health — Abu Dhabi, UAE</div>
+        <p class="tl-desc">Hired by the healthcare regulator to lead BI solution architecture, data governance, and analytics adoption for healthcare analytics initiatives.</p>
+        <ul class="tl-points">
+          <li><strong>BI Solution Architecture:</strong> Designed scalable BI framework integrating data pipelines, models, and visualization tools — analytics efficiency ↑ 50%.</li>
+          <li><strong>Product Ownership:</strong> Executed Healthcare Analytics Platform roadmap — platform adoption ↑ 60%.</li>
+          <li><strong>Data Engineering:</strong> Optimized ETL pipelines, reducing data ingestion time by 50% and query performance ↑ 45%.</li>
+          <li><strong>Advanced Analytics:</strong> Built KPI-driven dashboards reducing manual reporting by 40%.</li>
+          <li><strong>Data Science:</strong> Oversaw predictive analytics models — operational planning ↑ 30%.</li>
+          <li><strong>Data Governance:</strong> Standardized policies, reducing data security risks by 40%.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Sep 2019 – Jul 2022</div>
+        <div class="tl-title">Business Strategy &amp; Analytics Lead</div>
+        <div class="tl-company">BALTCO — Abu Dhabi, UAE</div>
+        <p class="tl-desc">Led strategic direction, business intelligence, and data-driven transformation — overseeing end-to-end operations, analytics, and financial decision-making.</p>
+        <ul class="tl-points">
+          <li><strong>Business Strategy &amp; Growth:</strong> Executed data-driven strategies — revenue ↑ 22%.</li>
+          <li><strong>BI Architecture:</strong> Deployed centralized BI framework integrating financial, operational and sales data — reporting efficiency ↑ 45%.</li>
+          <li><strong>Financial Analytics:</strong> Implemented forecasting models — cost inefficiencies ↓ 33%.</li>
+          <li><strong>Process Automation:</strong> Streamlined operations, cutting manual workflows by 50%.</li>
+          <li><strong>Team Leadership:</strong> Built and mentored cross-functional teams fostering a data-driven culture.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Sep 2017 – Aug 2019</div>
+        <div class="tl-title">BI Engineer / Solution Architect</div>
+        <div class="tl-company">Financial Sciences Corporation — New York City, USA</div>
+        <p class="tl-desc">Key role enhancing loan deal syndication and commercial paper trading software products — optimizing data visualization and product-driven analytics.</p>
+        <ul class="tl-points">
+          <li><strong>Product Development:</strong> Contributed to 3 major product enhancements — client adoption ↑ 40%.</li>
+          <li><strong>Dashboard Development:</strong> Designed interactive financial dashboards in Power BI &amp; Tableau — reporting turnaround ↓ 35%.</li>
+          <li><strong>Stakeholder Engagement:</strong> Worked with 20+ enterprise clients — customer satisfaction ↑ 25%.</li>
+          <li><strong>Training &amp; Support:</strong> Delivered training to 50+ users, improving product adoption.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Jan 2016 – Aug 2017</div>
+        <div class="tl-title">Business Intelligence &amp; Product Strategy Lead</div>
+        <div class="tl-company">Wellacopia — New York City, USA</div>
+        <p class="tl-desc">Health-tech startup connecting patients with chronic illnesses to practitioners via AI-driven compatibility algorithm. Shaped data strategy, workflows, and BI capabilities.</p>
+        <ul class="tl-points">
+          <li><strong>User Analytics:</strong> Developed patient-practitioner engagement analytics — successful matches ↑ 25%.</li>
+          <li><strong>Revenue Analytics:</strong> Pricing model analysis — monetization &amp; retention ↑ 15%.</li>
+          <li><strong>Process Automation:</strong> Automated BI reporting — manual data handling ↓ 40%.</li>
+          <li><strong>Investor Support:</strong> Built data-backed financial models supporting early-stage funding.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Sep 2014 – Dec 2015</div>
+        <div class="tl-title">BI &amp; Data Engineer</div>
+        <div class="tl-company">New York Public Radio — New York City, USA</div>
+        <p class="tl-desc">Enhanced data analytics capabilities, audience engagement strategies, and content performance metrics for a renowned public media organisation.</p>
+        <ul class="tl-points">
+          <li><strong>Audience Analytics:</strong> Developed analytics frameworks — user engagement ↑ 20%.</li>
+          <li><strong>Digital Optimization:</strong> Analyzed user interaction data — streaming &amp; podcast downloads ↑ 25%.</li>
+          <li><strong>Revenue through Data:</strong> Identified donor engagement patterns — membership contributions ↑ 18%.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── PROJECTS ── -->
+  <section class="section" id="projects">
+    <p class="section-eyebrow">Work</p>
+    <h2 class="section-title">Key Projects</h2>
     <div class="projects-grid">
 
       <div class="project-card">
-        <h3>Project One</h3>
-        <p>A short description of what this project does and the problem it solves.</p>
-        <div class="project-tags">
-          <span class="project-tag">React</span>
-          <span class="project-tag">Node.js</span>
-        </div>
-        <div class="project-links">
-          <a href="#">GitHub →</a>
-          <a href="#">Live Demo →</a>
+        <h3>Healthcare Analytics Platform</h3>
+        <p>Designed and deployed 180+ dashboards across all DOH sectors, enabling real-time healthcare analytics for Abu Dhabi's health regulator.</p>
+        <div class="project-tech">
+          <span>Microsoft Fabric</span><span>Power BI</span><span>SQL Server</span>
+          <span>Azure Synapse</span><span>Databricks</span><span>DAX</span><span>Python</span>
         </div>
       </div>
 
       <div class="project-card">
-        <h3>Project Two</h3>
-        <p>A short description of what this project does and the problem it solves.</p>
-        <div class="project-tags">
-          <span class="project-tag">Python</span>
-          <span class="project-tag">FastAPI</span>
-        </div>
-        <div class="project-links">
-          <a href="#">GitHub →</a>
-          <a href="#">Live Demo →</a>
+        <h3>On-Prem to Cloud Migration</h3>
+        <p>Migrated 100+ enterprise reports from on-prem Tableau to cloud-based Power BI, improving accessibility and performance organisation-wide.</p>
+        <div class="project-tech">
+          <span>Power BI</span><span>Tableau</span><span>Azure Synapse</span>
+          <span>Microsoft Fabric</span><span>SQL</span><span>DAX</span>
         </div>
       </div>
 
       <div class="project-card">
-        <h3>Project Three</h3>
-        <p>A short description of what this project does and the problem it solves.</p>
-        <div class="project-tags">
-          <span class="project-tag">TypeScript</span>
-          <span class="project-tag">PostgreSQL</span>
+        <h3>SQL Server to UDM Databricks Migration</h3>
+        <p>Led database migration from SQL Server to Unified Data Model (UDM) in Databricks, improving scalability and processing speed.</p>
+        <div class="project-tech">
+          <span>Databricks</span><span>SQL Server</span><span>Azure Data Factory</span>
+          <span>Power BI</span><span>Delta Lake</span><span>Python</span>
         </div>
-        <div class="project-links">
-          <a href="#">GitHub →</a>
-          <a href="#">Live Demo →</a>
+      </div>
+
+      <div class="project-card">
+        <h3>Capacity Master Plan — AI/ML &amp; BI</h3>
+        <p>Managed Tier 1 consulting firm vendor to develop AI/ML-powered predictive analytics and Power BI solutions for healthcare capacity planning.</p>
+        <div class="project-tech">
+          <span>Power BI</span><span>Azure ML</span><span>Python</span>
+          <span>SQL</span><span>AI/ML Models</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <h3>FSC — Front-End Analytics Development</h3>
+        <p>Built the entire analytics front-end of FSC's financial software for treasury management and loan deal syndication, improving data visualization and usability.</p>
+        <div class="project-tech">
+          <span>JavaScript</span><span>Yellowfin BI</span><span>SQL</span><span>Python</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <h3>Wellacopia — End-to-End App</h3>
+        <p>Led end-to-end development of a health-tech platform connecting patients with practitioners via AI-driven matching, from concept to deployment.</p>
+        <div class="project-tech">
+          <span>React Native</span><span>Firebase</span><span>SQL</span>
+          <span>Power BI</span><span>UX/UI Design</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <h3>Baltco — Digital Transformation</h3>
+        <p>Transformed a traditional industrial trading business into a cloud-based, data-driven organisation with integrated ERP and analytics capabilities.</p>
+        <div class="project-tech">
+          <span>SQL Server</span><span>Tableau</span><span>Zoho ERP</span>
+          <span>Zoho CRM</span><span>Microsoft Excel</span>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <p class="section-label">Contact</p>
-    <h2 class="section-title">Let's Talk</h2>
+  <div class="divider"></div>
+
+  <!-- ── CERTIFICATIONS ── -->
+  <section class="section" id="certs">
+    <p class="section-eyebrow">Credentials</p>
+    <h2 class="section-title">Certifications</h2>
+    <div class="certs-grid">
+      <div class="cert-card">
+        <span class="cert-icon">🏆</span>
+        <div>
+          <div class="cert-name">Azure Fabric Analytics Engineer</div>
+          <div class="cert-issuer">Microsoft</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <span class="cert-icon">🤖</span>
+        <div>
+          <div class="cert-name">Microsoft AI &amp; Co-pilot SME</div>
+          <div class="cert-issuer">Microsoft</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <span class="cert-icon">📊</span>
+        <div>
+          <div class="cert-name">MicroStrategy Developer</div>
+          <div class="cert-issuer">MicroStrategy</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <span class="cert-icon">🎓</span>
+        <div>
+          <div class="cert-name">Certified Data Analyst</div>
+          <div class="cert-issuer">General Assembly — New York</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <span class="cert-icon">🔬</span>
+        <div>
+          <div class="cert-name">IBM Data Scientist</div>
+          <div class="cert-issuer">IBM</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── CONTACT ── -->
+  <section class="section" id="contact">
     <div class="contact-wrapper">
-      <p>Whether you have a project in mind, a question, or just want to say hi — my inbox is open.</p>
+      <h3>Let's Work Together</h3>
+      <p>Whether you have a project, a role to discuss, or just want to connect — I'd love to hear from you.</p>
       <div class="contact-links">
-        <a href="mailto:jayh.jethva@gmail.com" class="contact-link">✉️ Email</a>
-        <a href="https://github.com/jayharish" class="contact-link" target="_blank">GitHub</a>
-        <a href="https://linkedin.com/in/jayjethva" class="contact-link" target="_blank">LinkedIn</a>
+        <a href="mailto:Jayh.jethva@gmail.com" class="contact-link">✉️ Jayh.jethva@gmail.com</a>
+        <a href="https://linkedin.com/in/jayharishjethva" target="_blank" class="contact-link">💼 LinkedIn</a>
+        <a href="tel:+971509506749" class="contact-link">📞 +971 50 950 6749</a>
+        <a href="https://github.com/jayharish" target="_blank" class="contact-link">🐙 GitHub</a>
       </div>
     </div>
   </section>
 
   <footer>
-    <p>Built by Jay Jethva · <a href="https://github.com/jayharish/jayharish.github.io" style="color:inherit">View Source</a></p>
+    <p>© 2026 Jay Harish Jethva · <a href="https://github.com/jayharish/jayharish.github.io" style="color:var(--accent2)">View Source</a></p>
   </footer>
 
 </body>
